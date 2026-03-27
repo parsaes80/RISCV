@@ -1,0 +1,1 @@
+Info (10281): Verilog HDL Declaration information at riscv_pkg.sv(16): object "pc" differs only in case from object "PC" in the same scope File: /home/parsa/Data/Coding_Projects/Hardware/RISCV/riscv_pkg.sv Line: 16

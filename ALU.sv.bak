@@ -1,0 +1,1 @@
+module ALU(input logic[0:31] in1,input logic[0:31] in2, input logic[0:2] opcode, input logic[0:31] out);

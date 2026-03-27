@@ -1,0 +1,1 @@
+module register_file(input logic a, output logic b);
