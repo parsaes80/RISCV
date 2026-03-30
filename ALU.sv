@@ -18,7 +18,7 @@ module ALU(input logic[31:0] in1,
         ALU_AND:  out = in1 & in2;
         ALU_SUB:  out = in1 - in2;
         ALU_SRA:  out = $signed(in1) >>> in2[4:0];
-		  default:  out = 32'd0;
+		default:  out = 32'd0;
         endcase	
 		  
 		if (out == 0)

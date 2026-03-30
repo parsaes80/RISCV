@@ -31,9 +31,40 @@ module RISCV (
     logic        zero_flag;
     logic [31:0] wb_data;
     logic [31:0] mem_read_data;
+    logic [15:0] mem_addr;
+    logic [7:0]  mem_wdata;
+    logic [7:0]  mem_q;
 
-    // Placeholder until data memory is integrated.
-    assign mem_read_data = 32'b0;
+    assign mem_addr = alu_out[15:0];
+
+    // Single-port memory is byte-wide, so choose the addressed byte lane.
+    always_comb begin
+        unique case (alu_out[1:0])
+            2'b00: mem_wdata = rs2_data[7:0];
+            2'b01: mem_wdata = rs2_data[15:8];
+            2'b10: mem_wdata = rs2_data[23:16];
+            default: mem_wdata = rs2_data[31:24];
+        endcase
+    end
+
+    always_comb begin
+        unique case (load_op)
+            LB:  mem_read_data = {{24{mem_q[7]}}, mem_q};
+            LBU: mem_read_data = {24'b0, mem_q};
+            LH:  mem_read_data = {{24{mem_q[7]}}, mem_q};
+            LHU: mem_read_data = {24'b0, mem_q};
+            LW:  mem_read_data = {{24{mem_q[7]}}, mem_q};
+            default: mem_read_data = 32'b0;
+        endcase
+    end
+
+    s_memory memory (
+        .address(mem_addr),
+        .clock(clk),
+        .data(mem_wdata),
+        .wren(mem_store),
+        .q(mem_q)
+    );
 
     Decoder decoder (
         .inst(inst),
@@ -55,7 +86,7 @@ module RISCV (
         .branch_op(branch_op)
     );
 
-    Reg_file u_regfile (
+    Reg_file regfile (
         .clk(clk),
         .rs1(rs1_addr),
         .rs2(rs2_addr),

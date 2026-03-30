@@ -6,7 +6,7 @@ module Reg_file (
     output logic [31:0] rd1, rd2
 );
 
-	logic [31:0] regs[31:0]; // x1 RA, x2 SP 
+	logic [31:0] regs[31:0]; // x0=0, x1=RA, x2=SP 
 
 	assign rd1 = (rs1 == 5'b0) ? 32'b0 : regs[rs1];
 	assign rd2 = (rs2 == 5'b0) ? 32'b0 : regs[rs2];
