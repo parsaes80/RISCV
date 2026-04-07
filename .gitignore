@@ -21,6 +21,7 @@ simulation/
 *.jbc
 *.ekp
 *.pin
+*.bak
 
 # IP and generated synthesis/simulation collateral
 *.cmp

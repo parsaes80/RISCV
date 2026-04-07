@@ -1,41 +1,20 @@
 
-000100b4 <_start>:
-   100b4:	00200137          	lui	sp,0x200
-   100b8:	008000ef          	jal	ra,100c0 <main>
-   100bc:	0000006f          	jal	zero,100bc <_start+0x8>
+Disassembly of section .text:
 
-000100c0 <main>:
-   100c0:	fe010113          	addi	sp,sp,-32 # 1fffe0 <__global_pointer$+0x1ee698>
-   100c4:	00112e23          	sw	ra,28(sp)
-   100c8:	00812c23          	sw	s0,24(sp)
-   100cc:	02010413          	addi	s0,sp,32
-   100d0:	00100793          	addi	a5,zero,1
-   100d4:	fef42623          	sw	a5,-20(s0)
-   100d8:	00100793          	addi	a5,zero,1
-   100dc:	fef42423          	sw	a5,-24(s0)
-   100e0:	fe042023          	sw	zero,-32(s0)
-   100e4:	fe042223          	sw	zero,-28(s0)
-   100e8:	0300006f          	jal	zero,10118 <main+0x58>
-   100ec:	fec42783          	lw	a5,-20(s0)
-   100f0:	fef42023          	sw	a5,-32(s0)
-   100f4:	fec42703          	lw	a4,-20(s0)
-   100f8:	fe842783          	lw	a5,-24(s0)
-   100fc:	00f707b3          	add	a5,a4,a5
-   10100:	fef42623          	sw	a5,-20(s0)
-   10104:	fe042783          	lw	a5,-32(s0)
-   10108:	fef42423          	sw	a5,-24(s0)
-   1010c:	fe442783          	lw	a5,-28(s0)
-   10110:	00178793          	addi	a5,a5,1
-   10114:	fef42223          	sw	a5,-28(s0)
-   10118:	000117b7          	lui	a5,0x11
-   1011c:	1487a783          	lw	a5,328(a5) # 11148 <iters>
-   10120:	fe442703          	lw	a4,-28(s0)
-   10124:	fcf744e3          	blt	a4,a5,100ec <main+0x2c>
-   10128:	fec42703          	lw	a4,-20(s0)
-   1012c:	fe842783          	lw	a5,-24(s0)
-   10130:	00f707b3          	add	a5,a4,a5
-   10134:	00078513          	addi	a0,a5,0
-   10138:	01c12083          	lw	ra,28(sp)
-   1013c:	01812403          	lw	s0,24(sp)
-   10140:	02010113          	addi	sp,sp,32
-   10144:	00008067          	jalr	zero,0(ra)
+00010094 <_start>:
+   10094:	00200137          	lui	sp,0x200
+   10098:	008000ef          	jal	ra,100a0 <main>
+   1009c:	0000006f          	jal	zero,1009c <_start+0x8>
+
+000100a0 <main>:
+   100a0:	00100513          	addi	a0,zero,1
+   100a4:	00100593          	addi	a1,zero,1
+   100a8:	00400613          	addi	a2,zero,4
+   100ac:	00060c63          	beq	a2,zero,100c4 <main+0x24>
+   100b0:	000506b3          	add	a3,a0,zero
+   100b4:	00b50533          	add	a0,a0,a1
+   100b8:	000685b3          	add	a1,a3,zero
+   100bc:	fff60613          	addi	a2,a2,-1
+   100c0:	fedff06f          	jal	zero,100ac <main+0xc>
+   100c4:	00b50533          	add	a0,a0,a1
+   100c8:	00008067          	jalr	zero,0(ra)

@@ -168,6 +168,9 @@ module Decoder(
             JAL: begin
                // JAL offset is J-type immediate (signed 21-bit with bit0=0).
                reg_write = 1;
+               alu_src_pc = 1'b1;
+               alu_src_imm = 1'b1;
+               alu_op = ALU_ADD;
                wb_src = PC_WB;
                imm = {{11{inst[31]}}, inst[31], inst[19:12], inst[20], inst[30:21], 1'b0};
                jump = 1'b1;
@@ -201,7 +204,7 @@ module Decoder(
                wb_src = ALU_WB;
             end
             default:
-               imm = 32'b1;
+               imm = 32'b0;
         endcase   
    end
 endmodule
