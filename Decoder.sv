@@ -16,13 +16,13 @@ module Decoder(
     output LOAD_TYPE    load_op,  // byte/half/word 
     output STORE_TYPE   store_op,  // byte/half/word 
     // === Register writeback ===
-    output logic        reg_write,   // 1 = write result back to rd
-    output WB_TYPE       wb_src,      // what to write back (ALU / memory / PC+4)
+    output logic         wb,          // 1 = write result back to rd
+    output WB_TYPE       wb_src,      // what to write back (ALU / memory)
     // === PC control ===
     output logic        branch,      // 1 = this is a branch instruction
     output logic        jump,        // 1 = unconditional jump (JAL/JALR)
     output BRANCH_TYPE  branch_op    // branch condition
-     );
+    );
      
     localparam logic[6:0] R     = 7'b0110011;
     localparam logic[6:0] I     = 7'b0010011;
@@ -55,22 +55,22 @@ module Decoder(
 
         // Defaults to avoid latches while cases are being completed.
         alu_op = ALU_ADD;
-        alu_src_imm = 1'b0;
-        alu_src_pc = 1'b0;
-        mem_load = 1'b0;
-        mem_store = 1'b0;
+        alu_src_imm = 0;
+        alu_src_pc = 0;
+        mem_load = 0;
+        mem_store = 0;
         load_op = LB;
         store_op = SW;
-        reg_write = 1'b0;
+        wb = 0;
         wb_src = ALU_WB;
-        branch = 1'b0;
-        jump = 1'b0;
+        branch = 0;
+        jump = 0;
         branch_op = BEQ;
-        imm = 32'b0;
+        imm = 0;
         
         case (opcode)
             R: begin
-                reg_write = 1;
+               wb = 1;
                case (funct3)
                   3'b000: begin  
                      if (funct7 == 7'b0000000) 
@@ -93,8 +93,8 @@ module Decoder(
                endcase
             end
             I: begin
-               alu_src_imm = 1'b1;
-               reg_write = 1;
+               alu_src_imm = 1;
+               wb = 1;
                if (funct3 == 3'b001) begin
                   alu_op = ALU_SLL;
                   // Shift-immediates use low 5 bits and zero the upper bits.
@@ -121,9 +121,9 @@ module Decoder(
                end
             end     
             L: begin
-                mem_load = 1;
-                reg_write = 1;
-               alu_src_imm = 1'b1;
+               mem_load = 1;
+               wb = 1;
+               alu_src_imm = 1;
                alu_op = ALU_ADD;
                wb_src = MEM_WB;
                 case (funct3)
@@ -139,8 +139,8 @@ module Decoder(
             end
             S: begin
                 mem_store = 1;
-               alu_src_imm = 1'b1;
-               alu_op = ALU_ADD;
+                alu_src_imm = 1;
+                alu_op = ALU_ADD;
                 imm12 = {inst[31:25],inst[11:7]};
                 case (funct3)
                      3'b000: store_op = SB;
@@ -167,40 +167,38 @@ module Decoder(
             end    
             JAL: begin
                // JAL offset is J-type immediate (signed 21-bit with bit0=0).
-               reg_write = 1;
-               alu_src_pc = 1'b1;
-               alu_src_imm = 1'b1;
+               wb = 0;
+               alu_src_pc = 1;
+               alu_src_imm = 1;
                alu_op = ALU_ADD;
-               wb_src = PC_WB;
                imm = {{11{inst[31]}}, inst[31], inst[19:12], inst[20], inst[30:21], 1'b0};
-               jump = 1'b1;
+               jump = 1;
             end   
             JALR: begin
                // JALR uses I-type signed 12-bit immediate.
-               reg_write = 1;
-               alu_src_imm = 1'b1;
+               wb = 0;
+               alu_src_imm = 1;
                alu_op = ALU_ADD;
-               wb_src = PC_WB;
                imm = {{20{imm12[11]}}, imm12};
-               jump = 1'b1;
+               jump = 1;
             end
             LUI: begin
                // U-type immediate is placed in upper 20 bits (lower 12 are zero).
-               reg_write = 1'b1;
+               wb = 1;
                // LUI does not use rs1; force x0 so ALU computes 0 + imm.
                rs1 = 5'd0;
                imm = {imm20,12'b0};
                alu_op = ALU_ADD;
-               alu_src_imm = 1'b1;
+               alu_src_imm = 1;
                wb_src = ALU_WB;
             end  
             AUIPC: begin
                // AUIPC uses the same U-type immediate and writes ALU result.
-               reg_write = 1'b1;
+               wb = 1;
                imm = {imm20,12'b0};
                alu_op = ALU_ADD;
-               alu_src_pc = 1'b1;
-               alu_src_imm = 1'b1;
+               alu_src_pc = 1;
+               alu_src_imm = 1;
                wb_src = ALU_WB;
             end
             default:
@@ -214,7 +212,7 @@ endmodule
         //defaults
     //    mem_read=0; 
     //    mem_write=0; 
-     //   reg_write=0; 
+     //   wb=0; 
     //    branch=0; 
     //    jump=0; 
     //    alu_src=0; 

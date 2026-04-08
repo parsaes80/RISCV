@@ -13,7 +13,7 @@ typedef enum logic [3:0] {
 	  ALU_SRA  = 4'b1101   // funct3=101, bit30=1
 } ALU_OP_TYPE;
 
-typedef enum {ALU_WB,MEM_WB,PC_WB} WB_TYPE;
+typedef enum {ALU_WB,MEM_WB} WB_TYPE;
 typedef enum {LB,LH,LW,LBU,LHU} LOAD_TYPE;
 typedef enum {SW,SH,SB} STORE_TYPE;
 typedef enum {BEQ,BNE,BLT,BGE,BLTU,BGEU} BRANCH_TYPE;
