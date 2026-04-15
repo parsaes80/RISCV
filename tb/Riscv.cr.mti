@@ -44,6 +44,16 @@ Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
 Top level modules:
 	Reg_file
 
+} {} {}} /home/parsa/Data/Coding_Projects/Hardware/RISCV/Decoder.sv {1 {vlog -work work -vopt -sv -stats=none /home/parsa/Data/Coding_Projects/Hardware/RISCV/Decoder.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/parsa/Data/Coding_Projects/Hardware/RISCV/tb/Riscv.mpf' is used as the ini file.
+-- Compiling package Decoder_sv_unit
+-- Importing package riscv_pkg
+-- Compiling module Decoder
+
+Top level modules:
+	Decoder
+
 } {} {}} /home/parsa/Data/Coding_Projects/Hardware/RISCV/ALU.sv {1 {vlog -work work -vopt -sv -stats=none /home/parsa/Data/Coding_Projects/Hardware/RISCV/ALU.sv
 Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
 ** Note: (vlog-220) '/home/parsa/Data/Coding_Projects/Hardware/RISCV/tb/Riscv.mpf' is used as the ini file.
