@@ -30,26 +30,28 @@ module RISCV (
     output logic [31:0] alu_out,
     output logic        zero_flag,
     output logic        take_branch,
-    output logic [31:0] regfile_regs [31:0]
+    output logic [31:0] regfile_regs [31:0],
+    output logic [31:0] mem_load_data,
+    output logic [31:0] mem_addr,
+    output logic [31:0] mem_store_data,
+    output logic [3:0]  mem_byte_en,
+    output logic [31:0] mem_q,
+    output logic [7:0]  load_byte,
+    output logic [15:0] load_half,
+    output logic [31:0] instr_mem [0:13]
 );
     
-    logic [31:0] mem_load_data;
-    logic [15:0] mem_addr;
-    logic [7:0]  mem_store_data;
-    logic [7:0]  mem_q;
-    logic [31:0] instr_mem [0:13];
-
     localparam logic [31:0] RESET_PC = 32'h00010094;
     localparam logic [31:0] LAST_INST_PC = RESET_PC + 32'd52;
    
-    assign mem_addr = alu_out[15:0];
+    assign mem_addr = alu_out;
 
     assign instr_mem[0]  = 32'h00200137;
     assign instr_mem[1]  = 32'h008000ef;
     assign instr_mem[2]  = 32'h0000006f;
     assign instr_mem[3]  = 32'h00100513;
     assign instr_mem[4]  = 32'h00100593;
-    assign instr_mem[5]  = 32'h00400613;
+    assign instr_mem[5]  = 32'hfff00613;
     assign instr_mem[6]  = 32'h00060c63;
     assign instr_mem[7]  = 32'h000506b3;
     assign instr_mem[8]  = 32'h00b50533;
@@ -113,23 +115,63 @@ module RISCV (
     end
     
     always_comb begin
-        if(mem_store) begin
-            unique case (alu_out[1:0])
-                2'b00: mem_store_data = rs2_data[7:0];
-                2'b01: mem_store_data = rs2_data[15:8];
-                2'b10: mem_store_data = rs2_data[23:16];
-                default: mem_store_data = rs2_data[31:24];
+        mem_store_data = 32'b0;
+        mem_byte_en = 4'b0000;
+
+        if (mem_store) begin
+            unique case (store_op)
+                SB: begin
+                    unique case (alu_out[1:0])
+                        2'b00: begin
+                            mem_store_data = {24'b0, rs2_data[7:0]};
+                            mem_byte_en = 4'b0001;
+                        end
+                        2'b01: begin
+                            mem_store_data = {16'b0, rs2_data[7:0], 8'b0};
+                            mem_byte_en = 4'b0010;
+                        end
+                        2'b10: begin
+                            mem_store_data = {8'b0, rs2_data[7:0], 16'b0};
+                            mem_byte_en = 4'b0100;
+                        end
+                        default: begin
+                            mem_store_data = {rs2_data[7:0], 24'b0};
+                            mem_byte_en = 4'b1000;
+                        end
+                    endcase
+                end
+                SH: begin
+                    if (alu_out[1] == 1'b0) begin
+                        mem_store_data = {16'b0, rs2_data[15:0]};
+                        mem_byte_en = 4'b0011;
+                    end else begin
+                        mem_store_data = {rs2_data[15:0], 16'b0};
+                        mem_byte_en = 4'b1100;
+                    end
+                end
+                default: begin // SW
+                    mem_store_data = rs2_data;
+                    mem_byte_en = 4'b1111;
+                end
             endcase
-        end else
-            mem_store_data = 8'b0;
-            
+        end
+
+        unique case (alu_out[1:0])
+            2'b00: load_byte = mem_q[7:0];
+            2'b01: load_byte = mem_q[15:8];
+            2'b10: load_byte = mem_q[23:16];
+            default: load_byte = mem_q[31:24];
+        endcase
+
+        load_half = (alu_out[1] == 1'b0) ? mem_q[15:0] : mem_q[31:16];
+
         if(mem_load) begin
             unique case (load_op)
-                LB:  mem_load_data = {{24{mem_q[7]}}, mem_q};
-                LBU: mem_load_data = {24'b0, mem_q};
-                LH:  mem_load_data = {{24{mem_q[7]}}, mem_q};
-                LHU: mem_load_data = {24'b0, mem_q};
-                LW:  mem_load_data = {{24{mem_q[7]}}, mem_q};
+                LB:  mem_load_data = {{24{load_byte[7]}}, load_byte};
+                LBU: mem_load_data = {24'b0, load_byte};
+                LH:  mem_load_data = {{16{load_half[15]}}, load_half};
+                LHU: mem_load_data = {16'b0, load_half};
+                LW:  mem_load_data = mem_q;
                 default: mem_load_data = 32'b0;
             endcase
         end else 
@@ -140,6 +182,7 @@ module RISCV (
         .address(mem_addr),
         .clock(clk),
         .data(mem_store_data),
+        .byte_en(mem_byte_en),
         .wren(mem_store),
         .q(mem_q)
     );

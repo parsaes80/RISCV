@@ -1,10 +1,12 @@
-/home/parsa/Data/Coding_Projects/Hardware/RISCV/riscv_pkg.sv {1 {vlog -work work -vopt -sv -stats=none /home/parsa/Data/Coding_Projects/Hardware/RISCV/riscv_pkg.sv
+/home/parsa/Data/Coding_Projects/Hardware/RISCV/tb/ALU_tb.sv {1 {vlog -work work -vopt -sv -stats=none /home/parsa/Data/Coding_Projects/Hardware/RISCV/tb/ALU_tb.sv
 Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
 ** Note: (vlog-220) '/home/parsa/Data/Coding_Projects/Hardware/RISCV/tb/Riscv.mpf' is used as the ini file.
--- Compiling package riscv_pkg
+-- Compiling package ALU_tb_sv_unit
+-- Importing package riscv_pkg
+-- Compiling module ALU_tb
 
 Top level modules:
-	--none--
+	ALU_tb
 
 } {} {}} /home/parsa/Data/Coding_Projects/Hardware/RISCV/tb/Decoder_tb.sv {1 {vlog -work work -vopt -sv -stats=none /home/parsa/Data/Coding_Projects/Hardware/RISCV/tb/Decoder_tb.sv
 Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
@@ -16,15 +18,21 @@ Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
 Top level modules:
 	Decoder_tb
 
-} {} {}} /home/parsa/Data/Coding_Projects/Hardware/RISCV/tb/ALU_tb.sv {1 {vlog -work work -vopt -sv -stats=none /home/parsa/Data/Coding_Projects/Hardware/RISCV/tb/ALU_tb.sv
+} {} {}} /home/parsa/Data/Coding_Projects/Hardware/RISCV/riscv_pkg.sv {1 {vlog -work work -vopt -sv -stats=none /home/parsa/Data/Coding_Projects/Hardware/RISCV/riscv_pkg.sv
 Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
 ** Note: (vlog-220) '/home/parsa/Data/Coding_Projects/Hardware/RISCV/tb/Riscv.mpf' is used as the ini file.
--- Compiling package ALU_tb_sv_unit
--- Importing package riscv_pkg
--- Compiling module ALU_tb
+-- Compiling package riscv_pkg
 
 Top level modules:
-	ALU_tb
+	--none--
+
+} {} {}} /home/parsa/Data/Coding_Projects/Hardware/RISCV/Reg_file.sv {1 {vlog -work work -vopt -sv -stats=none /home/parsa/Data/Coding_Projects/Hardware/RISCV/Reg_file.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) '/home/parsa/Data/Coding_Projects/Hardware/RISCV/tb/Riscv.mpf' is used as the ini file.
+-- Compiling module Reg_file
+
+Top level modules:
+	Reg_file
 
 } {} {}} /home/parsa/Data/Coding_Projects/Hardware/RISCV/tb/RISCV_tb.sv {1 {vlog -work work -vopt -sv -stats=none /home/parsa/Data/Coding_Projects/Hardware/RISCV/tb/RISCV_tb.sv
 Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
@@ -36,13 +44,15 @@ Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
 Top level modules:
 	RISCV_tb
 
-} {} {}} /home/parsa/Data/Coding_Projects/Hardware/RISCV/Reg_file.sv {1 {vlog -work work -vopt -sv -stats=none /home/parsa/Data/Coding_Projects/Hardware/RISCV/Reg_file.sv
+} {} {}} /home/parsa/Data/Coding_Projects/Hardware/RISCV/ALU.sv {1 {vlog -work work -vopt -sv -stats=none /home/parsa/Data/Coding_Projects/Hardware/RISCV/ALU.sv
 Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
 ** Note: (vlog-220) '/home/parsa/Data/Coding_Projects/Hardware/RISCV/tb/Riscv.mpf' is used as the ini file.
--- Compiling module Reg_file
+-- Compiling package ALU_sv_unit
+-- Importing package riscv_pkg
+-- Compiling module ALU
 
 Top level modules:
-	Reg_file
+	ALU
 
 } {} {}} /home/parsa/Data/Coding_Projects/Hardware/RISCV/Decoder.sv {1 {vlog -work work -vopt -sv -stats=none /home/parsa/Data/Coding_Projects/Hardware/RISCV/Decoder.sv
 Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
@@ -54,24 +64,12 @@ Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
 Top level modules:
 	Decoder
 
-} {} {}} /home/parsa/Data/Coding_Projects/Hardware/RISCV/ALU.sv {1 {vlog -work work -vopt -sv -stats=none /home/parsa/Data/Coding_Projects/Hardware/RISCV/ALU.sv
+} {} {}} /home/parsa/Data/Coding_Projects/Hardware/RISCV/s_memory.sv {1 {vlog -work work -vopt -sv -stats=none /home/parsa/Data/Coding_Projects/Hardware/RISCV/s_memory.sv
 Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
 ** Note: (vlog-220) '/home/parsa/Data/Coding_Projects/Hardware/RISCV/tb/Riscv.mpf' is used as the ini file.
--- Compiling package ALU_sv_unit
--- Importing package riscv_pkg
--- Compiling module ALU
+-- Compiling module s_memory
 
 Top level modules:
-	ALU
-
-} {} {}} /home/parsa/Data/Coding_Projects/Hardware/RISCV/RISCV.sv {1 {vlog -work work -vopt -sv -stats=none /home/parsa/Data/Coding_Projects/Hardware/RISCV/RISCV.sv
-Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
-** Note: (vlog-220) '/home/parsa/Data/Coding_Projects/Hardware/RISCV/tb/Riscv.mpf' is used as the ini file.
--- Compiling package RISCV_sv_unit
--- Importing package riscv_pkg
--- Compiling module RISCV
-
-Top level modules:
-	RISCV
+	s_memory
 
 } {} {}}

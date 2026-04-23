@@ -33,6 +33,14 @@ module RISCV_tb;
 	logic        zero_flag;
 	logic        take_branch;
 	logic [31:0] regfile_regs [31:0];
+	logic [31:0] mem_load_data;
+	logic [31:0] mem_addr;
+	logic [31:0] mem_store_data;
+	logic [3:0]  mem_byte_en;
+	logic [31:0] mem_q;
+	logic [7:0]  load_byte;
+	logic [15:0] load_half;
+	logic [31:0] instr_mem [0:13];
 
 	RISCV dut (
 		.clk(clk),
@@ -64,7 +72,15 @@ module RISCV_tb;
 		.alu_out(alu_out),
 		.zero_flag(zero_flag),
 		.take_branch(take_branch),
-		.regfile_regs(regfile_regs)
+		.regfile_regs(regfile_regs),
+		.mem_load_data(mem_load_data),
+		.mem_addr(mem_addr),
+		.mem_store_data(mem_store_data),
+		.mem_byte_en(mem_byte_en),
+		.mem_q(mem_q),
+		.load_byte(load_byte),
+		.load_half(load_half),
+		.instr_mem(instr_mem)
 	);
 
 	// 100 MHz clock
