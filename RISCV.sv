@@ -61,6 +61,7 @@ module RISCV (
     assign instr_mem[12] = 32'h00b50533;
     assign instr_mem[13] = 32'h00008067;
 
+    //fetch
     always_comb begin
         if ((pc_reg >= RESET_PC) && (pc_reg <= LAST_INST_PC))
             inst_reg = instr_mem[(pc_reg - RESET_PC) >> 2];
@@ -68,6 +69,7 @@ module RISCV (
             inst_reg = 32'h00000013;
     end
 
+    //clk 
     always_ff @(posedge clk or posedge rst) begin
         if (rst) begin
             pc_reg <= RESET_PC;
@@ -76,11 +78,13 @@ module RISCV (
         end
     end
     
+    //alu src
     always_comb begin
         alu_in1 = alu_src_pc ? pc_reg : rs1_data; // for the U instruction
         alu_in2 = alu_src_imm ? imm : rs2_data;
     end     
     
+    //wb src
     always_comb begin
         if (wb) begin
             unique case (wb_src)
@@ -91,6 +95,7 @@ module RISCV (
             wb_reg = alu_out;
     end
     
+    //calc next PC
     always_comb begin
         pc_next = pc_reg + 32'd4;
         take_branch = 1'b0;
@@ -114,6 +119,7 @@ module RISCV (
         end
     end
     
+    //memory handling 
     always_comb begin
         mem_store_data = 32'b0;
         mem_byte_en = 4'b0000;

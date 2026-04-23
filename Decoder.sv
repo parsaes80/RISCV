@@ -134,7 +134,7 @@ module Decoder(
                     3'b101:  load_op = LHU;
                     default: load_op = LB;  
                endcase
-               // Load offset is I-type immediate (signed 12-bit).
+               // Load offset is I-type 12-bit sign extended immediate
                imm = {{20{imm12[11]}}, imm12};
             end
             S: begin
@@ -148,11 +148,11 @@ module Decoder(
                      3'b010: store_op = SW;
                      default: store_op = SB;  
                 endcase
-               // Store offset is S-type immediate (signed 12-bit).
+               // Store offset is S-type 12-bit sign extended immediate
                imm = {{20{imm12[11]}}, imm12};
             end   
             B: begin
-               // Branch target offset is B-type immediate (signed 13-bit with bit0=0).
+               // Branch target offset is B-type signed 13-bit immediate with bit0=0
                imm = {{19{inst[31]}}, inst[31], inst[7], inst[30:25], inst[11:8], 1'b0};
                case (funct3)
                     3'b000:  branch_op = BEQ;  
@@ -166,7 +166,7 @@ module Decoder(
                 branch = 1'b1;
             end    
             JAL: begin
-               // JAL offset is J-type immediate (signed 21-bit with bit0=0).
+               // JAL offset is J-type signed 21-bit immediate with bit0=0
                wb = 0;
                alu_src_pc = 1;
                alu_src_imm = 1;
@@ -183,9 +183,9 @@ module Decoder(
                jump = 1;
             end
             LUI: begin
-               // U-type immediate is placed in upper 20 bits (lower 12 are zero).
+               // U-type immediate is placed in upper 20 bits
+               // LUI does not use rs1, force x0 so ALU computes 0 + imm.
                wb = 1;
-               // LUI does not use rs1; force x0 so ALU computes 0 + imm.
                rs1 = 5'd0;
                imm = {imm20,12'b0};
                alu_op = ALU_ADD;
@@ -206,21 +206,6 @@ module Decoder(
         endcase   
    end
 endmodule
-
-
-
-        //defaults
-    //    mem_read=0; 
-    //    mem_write=0; 
-     //   wb=0; 
-    //    branch=0; 
-    //    jump=0; 
-    //    alu_src=0; 
-    //    wb_src=alu; 
-    //    imm=0; 
-    //    branch_op=0; 
-    //    mem_funct3=0; 
-   //     alu_op=ALU_ADD;
 
 
 
