@@ -89,6 +89,6 @@ When compiling on Quartus make sure the top entity is the RISC-FPGA wrapper, it 
 - Instruction memory is hardcoded in RTL, not external ELF/HEX-loaded.
 - Data memory is simple inferred storage with no memory-mapped peripherals.
 - Data memory currently ignores address bits above `[15:0]`.
-- No formal verification suite included.
-- Existing `.bak`, `db/`, and generated simulation files are useful for local iteration but are typically excluded in clean source-only distributions.
+
+
 
