@@ -59,6 +59,8 @@ vsim work.RISCV_tb_opt
 
 Then add all the signals in the region to the waveform and run the simulation for amount of time you want. 
 
+<img width="2519" height="1137" alt="Image" src="https://github.com/user-attachments/assets/1d62e976-8be0-4b52-b8b2-af0460dcfeb2" />
+
 ## Build and Program FPGA (Quartus)
 
 
@@ -68,6 +70,7 @@ Then add all the signals in the region to the waveform and run the simulation fo
 4. Compile the design.
 5. Open Programmer and download the generated `.sof` to DE2-115.
 
+https://github.com/user-attachments/assets/06d0a02c-f4a9-4740-9455-2a6b1824d1a1
 
 ## Board I/O Mapping
 
